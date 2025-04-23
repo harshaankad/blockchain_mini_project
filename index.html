@@ -2,99 +2,88 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crowdfunding Page</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-            color: #333;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crowd-Funding Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert2 CDN -->
 
-        .container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-        }
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to right, #1e3c72, #2a5298);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      padding: 20px;
+    }
 
-        h1 {
-            text-align: center;
-            color: #007bff;
-            margin-bottom: 20px;
-        }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+    }
 
-        .button {
-            display: inline-block;
-            padding: 15px 25px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 18px;
-            margin-right: 10px;
-            transition: background-color 0.3s ease;
-        }
+    label {
+      font-size: 1rem;
+      margin-top: 20px;
+    }
 
-        .button:hover {
-            background-color: #0056b3;
-        }
+    input {
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      margin-top: 8px;
+      width: 200px;
+      font-size: 1rem;
+      margin-bottom: 20px;
+    }
 
-        p {
-            text-align: justify;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
+    button {
+      padding: 12px 24px;
+      margin: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #ffffff;
+      background-color: #4f46e5;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
 
-        .image-container {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+    button:hover {
+      background-color: #3730a3;
+      transform: scale(1.05);
+    }
 
-        .image-container img {
-            max-width: 100%;
-            border-radius: 20px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .button-container {
-            text-align: center;
-            margin-top: 30px;
-        }
-    </style>
+    .container {
+      background-color: rgba(255, 255, 255, 0.05);
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+  </style>
 </head>
 
 <body>
-    <div class="container">
-        <h1>Welcome to Crowdfunding</h1>
-        <div class="image-container">
-            <img src="https://via.placeholder.com/600x300" alt="Crowdfunding Image">
-        </div>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed leo urna. Quisque ut ultricies justo. Nam
-            nec lacus non augue aliquam euismod. Vivamus vel convallis mi, ac consequat velit. Sed nec quam a arcu
-            feugiat viverra. Nullam efficitur dui quis nunc fermentum, non mattis tortor lacinia.</p>
-        <p>Suspendisse potenti. Vestibulum vitae ligula ultricies, pulvinar libero sed, aliquam magna. Integer dictum
-            auctor sem, nec gravida neque posuere at. Vivamus eget tempor mauris, sit amet eleifend eros. Fusce euismod
-            dui id erat ultricies, et fermentum ligula efficitur.</p>
-        <p>Proin accumsan urna at metus laoreet feugiat. Nulla quis sapien a libero volutpat aliquam. Cras in mi nec
-            nunc eleifend euismod nec ut neque. Morbi nec tortor vitae nibh malesuada volutpat. Nam pharetra nibh et
-            metus cursus, eget varius sapien vestibulum.</p>
-        <div class="button-container">
-            <button id="connectButton" class="button">Connect</button>
-            <button id="fundButton" class="button">Fund</button>
-            <button id="balanceButton" class="button">Balance</button>
-            <button id="withdrawButton" class="button">Withdraw</button>
-        </div>
+  <div class="container">
+    <h1>🚀 Crowd-Funding Platform</h1>
+    <button id="connectButton">Connect Wallet</button>
+    <button id="balanceButton">Get Balance</button>
+    <button id="withdrawButton">Withdraw</button>
+    <div>
+      <label for="ethAmount">Enter ETH Amount</label><br />
+      <input id="ethAmount" placeholder="0.1" />
     </div>
-</body>
+    <button type="button" id="fundButton">Fund</button>
+  </div>
 
-<script src="index.js"></script>
+  <script src="./index.js" type="module"></script>
+</body>
 
 </html>
