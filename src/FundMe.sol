@@ -12,9 +12,9 @@ contract FundMe {
     using PriceConverter for uint256;
 
     mapping(address => uint256) public s_addressToAmountFunded;
-    address[] public s_funders;//We are making these two private because it is more gas efficient than public variables
+    address[] public s_funders;
 
-    // Could we make this constant?  /* hint: no! We should make it immutable! */
+    
     address public /* immutable */ i_owner;
     uint256 public constant MINIMUM_USD = 5 * 10 ** 18;
     AggregatorV3Interface public s_priceFeed;
@@ -22,6 +22,8 @@ contract FundMe {
     constructor(address priceFeed) {
         i_owner = msg.sender;
         s_priceFeed=AggregatorV3Interface(priceFeed);
+        
+
     }
 
     function fund() public payable {
@@ -30,6 +32,7 @@ contract FundMe {
         s_addressToAmountFunded[msg.sender] += msg.value;
         s_funders.push(msg.sender);
     }
+    
     
     function getVersion() public view returns (uint256){
         
@@ -42,13 +45,6 @@ contract FundMe {
         _;
     }
 
-    /*function cheaperWithdraw() public onlyOwner {
-        uint256 fundersLength=s_funders.length;//This saves us a lot of gas as we do not have to read everytime from storage when the for loop runs
-        for (uint256 funderIndex=0; funderIndex < fundersLength; funderIndex++){
-            address funder = s_funders[funderIndex];
-            s_addressToAmountFunded[funder] = 0;
-        }
-        s_funders = new address[](0);*/
     
     function withdraw() public onlyOwner {
         for (uint256 funderIndex=0; funderIndex < s_funders.length; funderIndex++){
@@ -56,28 +52,25 @@ contract FundMe {
             s_addressToAmountFunded[funder] = 0;
         }
         s_funders = new address[](0);
-        // // transfer
-        // payable(msg.sender).transfer(address(this).balance);
-        
-        // // send
-        // bool sendSuccess = payable(msg.sender).send(address(this).balance);
-        // require(sendSuccess, "Send failed");
-
-        // call
+       
         (bool callSuccess, ) = payable(msg.sender).call{value: address(this).balance}("");
         require(callSuccess, "Call failed");
     }
-    // Explainer from: https://solidity-by-example.org/fallback/
-    // Ether is sent to contract
-    //      is msg.data empty?
-    //          /   \ 
-    //         yes  no
-    //         /     \
-    //    receive()?  fallback() 
-    //     /   \ 
-    //   yes   no
-    //  /        \
-    //receive()  fallback()
+
+     function transferEther() public payable {
+        // Check if the contract has enough balance to perform the transfer
+        require(address(this).balance >= msg.value, "Insufficient balance in the contract");
+        
+        // Transfer the Ether to the sender's address
+        (bool success, ) = msg.sender.call{value: msg.value}("");
+        require(success, "Transfer failed");
+    }
+
+    function sendEther(address payable recipient, uint256 amount) public{
+        require(address(this).balance >= amount, "Insufficient balance in the contract");
+        recipient.transfer(amount);
+    }
+    
 
     fallback() external payable {
         fund();
@@ -100,3 +93,17 @@ contract FundMe {
     }
 
 }
+
+//payable keyword is used to make the function send and recieve money
+//1e18 is equal to one eth
+//revert undos the action of all the lines of the function above it if the condition is not satisfied
+//msg.value considers the input given by the user
+//there are 18 decimal places 
+//msg.sender the guy who puts in the input
+//library
+//using PriceConverter for uint256;This lines says any value of type uint256 can call the library functions like msg.value.getconversionrate()
+//constructor runs when the contract is deployed so in this case when the contract is deployed msg.sender is the deployer and this becomes owner of the contract and thus only he can withdraw the funds
+//using error functions saves gas along with using keywords like constant and immutable
+//recieve function is used when somebody wants to directly send money to contract without data whereas fallback is used when somebody wants to send money with data
+
+//to install chainlink brownie second video 8:27
